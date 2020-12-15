@@ -1,5 +1,7 @@
 package com.uzdemy.uzDemy.security.jwt;
 
+import io.jsonwebtoken.Jwts;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -24,14 +26,16 @@ public class JwtTokenFilter extends GenericFilterBean {
                          ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
-
-        if(token != null && jwtTokenProvider.validateToken(token)){
+        System.out.println("JWT FILTER: " + ((HttpServletRequest) servletRequest).getHeader("isRefreshToken"));
+        if(token != null && jwtTokenProvider.validateToken(token)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
-            if(authentication != null){
+            if (authentication != null) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
+
+
 }

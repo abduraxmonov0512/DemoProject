@@ -47,11 +47,13 @@ public class AuthenticationController {
             System.out.println("test 1" );
             System.out.println(username +"test test test "+ user.getRoles());
             String token = jwtTokenProvider.createToken(username, user.getRoles());
+            String refresh_token = jwtTokenProvider.createRefreshToken(username, user.getRoles());
             System.out.println("test 2" );
             System.out.println("test " + token);
 
             Map<Object, Object> response = new HashMap<>();
             response.put("username", username);
+            response.put("refresh_token", refresh_token);
             response.put("token", token);
 
             return ResponseEntity.ok(response);
